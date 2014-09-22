@@ -1,0 +1,116 @@
+Description of the raw data
+================
+
+According with the dataset provided for the assignment the experiment was carried out as follows:
+
+"A group of 30 volunteers within an age bracket of 19-48 years. Each person performed six activities (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist. Using its embedded accelerometer and gyroscope, we captured 3-axial linear acceleration and 3-axial angular velocity at a constant rate of 50Hz. The experiments have been video-recorded to label the data manually. The obtained dataset has been randomly partitioned into two sets, where 70% of the volunteers was selected for generating the training data and 30% the test data. 
+
+The sensor signals (accelerometer and gyroscope) were pre-processed by applying noise filters and then sampled in fixed-width sliding windows of 2.56 sec and 50% overlap (128 readings/window). The sensor acceleration signal, which has gravitational and body motion components, was separated using a Butterworth low-pass filter into body acceleration and gravity. The gravitational force is assumed to have only low frequency components, therefore a filter with 0.3 Hz cutoff frequency was used. From each window, a vector of features was obtained by calculating variables from the time and frequency domain"(Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto, Human Activity Recognition Using Smartphones Dataset, Version 1.0)
+
+Description of run_analysis.R
+================
+
+The original dataset is splitted in two separate datasets (test and training) that were merged on one single dataset (full_dataset) for the purpose of this programming assignment, after that, the features dataset was processed (feature_names) and 2 new columns where added: Subject and Activity and the labels for each feature were cleaned (non alphanumeric characters removed). The last step was to find the column numbers (cols_mean_std) for all features having measurements on the mean and standard deviation, then the features dataset was reduced from 563 features to 88 (which included the Activity and Subject number information).  
+
+Next step was to merge feature_names with full_dataset and to use a -for- loop to replace the activity numbers with the activity names (Activity_names) and then to force the columns Activity and Subject to be factors in the full_datased to allow the aggregate function (from stats package) to perform the calculation of the average (mean) by groups or levels (Subject, Activity).
+
+Finally the dataset Question_5 is generated using the aggregate function, the factor columns are removed (as they contain only NA's after running the mean function) and the columns reordered to show the dataset ordered by subject number, then using the write.table function is used as required by the assignment to output a file with the results.
+
+The Dataset "Question_5.txt"
+================
+
+The dataset is generated from running run_analysis.R, the UCI HAR Dataset folder with its original structures must exists in the default working directory for the function to run.
+All variables were normalized to [-1,1] by the authors of the original UCI HAR Dataset.
+All variables represent the average of a particular feature depending on the activity performed by each subject
+
+Variables in "Question_5.txt":
+================
+
+Subject_number: Subject who performed the observation (1 to 30).
+Activity_name: Activity performed by the subject (6 activities - Laying, sitting, standing, walking, walking_upstairs, walking_downstairs)
+tBodyAccmeanX: Average of mean acceleration in X axis (time domain), original data captured from accelerometer.
+tBodyAccmeanY: Average of mean acceleration in Y axis (time domain), original data captured from accelerometer.
+tBodyAccmeanZ: Average of mean acceleration in Z axis (time domain), original data captured from accelerometer.	
+tBodyAccstdX: Average of standard deviation in X axis (time domain), original data captured from accelerometer.
+tBodyAccstdY: Average of standard deviation in Y axis (time domain), original data captured from accelerometer.	
+tBodyAccstdZ: Average of standard deviation in Z axis (time domain), original data captured from accelerometer.	
+tGravityAccmeanX: Average of mean gravity acceleration in X axis (time domain), original data captured from accelerometer.	
+tGravityAccmeanY: Average of mean gravity acceleration in Y axis (time domain), original data captured from accelerometer.	
+tGravityAccmeanZ: Average of mean gravity acceleration in Z axis (time domain), original data captured from accelerometer.	
+tGravityAccstdX: Average of standard deviation of gravity acceleration in X axis (time domain), original data captured from accelerometer.	
+tGravityAccstdY: Average of standard deviation of gravity acceleration in Y axis (time domain), original data captured from accelerometer.
+tGravityAccstdZ: Average of standard deviation of gravity acceleration in Z axis (time domain), original data captured from accelerometer.	
+tBodyAccJerkmeanX: Average of mean Jerk signal (body linear acceleration and angular velocity were derived in time) in X axis (time domain), data captured from accelerometer.
+tBodyAccJerkmeanY: Average of mean Jerk signal (body linear acceleration and angular velocity were derived in time) in Y axis (time domain), data captured from accelerometer.	
+tBodyAccJerkmeanZ: Average of mean Jerk signal (body linear acceleration and angular velocity were derived in time) in Z axis (time domain), data captured from accelerometer.	
+tBodyAccJerkstdX: Average of the standard deviation of the Jerk signal (body linear acceleration and angular velocity were derived in time) in X axis (time domain), original data captured from accelerometer.
+tBodyAccJerkstdY: Average of the standard deviation of the Jerk signal (body linear acceleration and angular velocity were derived in time) in Y axis (time domain), original data captured from accelerometer.	
+tBodyAccJerkstdZ: Average of the standard deviation of the Jerk signal (body linear acceleration and angular velocity were derived in time) in Z axis (time domain), original data captured from accelerometer.	
+tBodyGyromeanX: Average of mean rotational acceleration in X axis (time domain), original data captured from gyroscope.
+tBodyGyromeanY: Average of mean rotational acceleration in Y axis (time domain), original data captured from gyroscope.	
+tBodyGyromeanZ: Average of mean rotational acceleration in Z axis (time domain), original data captured from gyroscope.	
+tBodyGyrostdX: Average of standard deviation of rotational acceleration in X axis (time domain), original data captured from gyroscope.
+tBodyGyrostdY: Average of standard deviation of rotational acceleration in Y axis (time domain), original data captured from gyroscope.	
+tBodyGyrostdZ: Average of standard deviation of rotational acceleration in Z axis (time domain), original data captured from gyroscope.	
+tBodyGyroJerkmeanX: Average of mean Jerk rotational signal (body linear acceleration and angular velocity were derived in time) in X axis (time domain), original data captured from gyroscope.	
+tBodyGyroJerkmeanY: Average of mean Jerk rotational signal (body linear acceleration and angular velocity were derived in time) in Y axis (time domain), original data captured from gyroscope.	
+tBodyGyroJerkmeanZ: Average of mean Jerk rotational signal (body linear acceleration and angular velocity were derived in time) in Z axis (time domain), original data captured from gyroscope.	
+tBodyGyroJerkstdX: Average of the standard deviation of the Jerk rotational signal (body linear acceleration and angular velocity were derived in time) in X axis (time domain), original data captured from gyroscope.
+tBodyGyroJerkstdY: Average of the standard deviation of the Jerk rotational signal (body linear acceleration and angular velocity were derived in time) in Y axis (time domain), original data captured from gyroscope.	
+tBodyGyroJerkstdZ: Average of the standard deviation of the Jerk rotational signal (body linear acceleration and angular velocity were derived in time) in Z axis (time domain), original data captured from gyroscope.	
+tBodyAccMagmean: Average of mean acceleration magnitude (time domain), original data captured from accelerometer.
+tBodyAccMagstd: Average of standard deviation of acceleration magnitude (time domain), original data captured from accelerometer.
+tGravityAccMagmean: Average of mean gravity acceleration magnitude (time domain), original data captured from accelerometer.	
+tGravityAccMagstd: Average of standard deviation of gravity acceleration magnitude (time domain), original data captured from accelerometer.	
+tBodyAccJerkMagmean: Average of mean Jerk signal acceleration magnitude (time domain), original data captured from accelerometer.	
+tBodyAccJerkMagstd: Average of standard deviation of Jerk signal acceleration magnitude (time domain), original data captured from accelerometer.
+tBodyGyroMagmean: Average of mean rotational acceleration magnitude (time domain), original data captured from gyroscope.
+tBodyGyroMagstd: Average of standard deviation of rotational acceleration magnitude (time domain), original data captured from gyroscope.
+tBodyGyroJerkMagmean: Average of mean Jerk rotational signal acceleration magnitude (time domain), original data captured from gyroscope.
+tBodyGyroJerkMagstd: Average of standard deviation of Jerk rotational signal acceleration magnitude (time domain), original data captured from gyroscope.	
+fBodyAccmeanX: Average of mean acceleration in X axis (frequency domain), original data captured from accelerometer.	
+fBodyAccmeanY: Average of mean acceleration in Y axis (frequency domain), original data captured from accelerometer.	
+fBodyAccmeanZ: Average of mean acceleration in Z axis (frequency domain), original data captured from accelerometer.	
+fBodyAccstdX: Average of standard deviation in X axis (frequency domain), original data captured from accelerometer.	
+fBodyAccstdY: Average of standard deviation in Y axis (frequency domain), original data captured from accelerometer.	
+fBodyAccstdZ: Average of standard deviation in Z axis (frequency domain), original data captured from accelerometer	
+fBodyAccmeanFreqX: Average of mean gravity acceleration in X axis (frequency domain), original data captured from accelerometer.		
+fBodyAccmeanFreqY: Average of mean gravity acceleration in Y axis (frequency domain), original data captured from accelerometer.	
+fBodyAccmeanFreqZ: Average of mean gravity acceleration in Z axis (frequency domain), original data captured from accelerometer.	
+fBodyAccJerkmeanX: Average of mean Jerk signal (body linear acceleration and angular velocity were derived in time) in X axis (frequency domain), data captured from accelerometer.
+fBodyAccJerkmeanY: Average of mean Jerk signal (body linear acceleration and angular velocity were derived in time) in Y axis (frequency domain), data captured from accelerometer.	
+fBodyAccJerkmeanZ: Average of mean Jerk signal (body linear acceleration and angular velocity were derived in time) in Z axis (frequency domain), data captured from accelerometer.	
+fBodyAccJerkstdX: Average of standard deviation of Jerk signal (body linear acceleration and angular velocity were derived in time) in X axis (frequency domain), data captured from accelerometer.	
+fBodyAccJerkstdY: Average of standard deviation of Jerk signal (body linear acceleration and angular velocity were derived in time) in Y axis (frequency domain), data captured from accelerometer.	
+fBodyAccJerkstdZ: Average of standard deviation of Jerk signal (body linear acceleration and angular velocity were derived in time) in Z axis (frequency domain), data captured from accelerometer.	
+fBodyAccJerkmeanFreqX: Average of mean angular Jerk signal (body linear acceleration and angular velocity were derived in time) in X axis (frequency domain), data captured from accelerometer.	
+fBodyAccJerkmeanFreqY: Average of mean angular Jerk signal (body linear acceleration and angular velocity were derived in time) in Y axis (frequency domain), data captured from accelerometer.	
+fBodyAccJerkmeanFreqZ: Average of mean angular Jerk signal (body linear acceleration and angular velocity were derived in time) in Z axis (frequency domain), data captured from accelerometer.	
+fBodyGyromeanX: Average of mean rotational acceleration in X axis (frequency domain), original data captured from gyroscope.	
+fBodyGyromeanY: Average of mean rotational acceleration in Y axis (frequency domain), original data captured from gyroscope.	
+fBodyGyromeanZ: Average of mean rotational acceleration in Z axis (frequency domain), original data captured from gyroscope.	
+fBodyGyrostdX: Average of standard deviation of rotational acceleration in X axis (frequency domain), original data captured from gyroscope.	
+fBodyGyrostdY: Average of standard deviation of rotational acceleration in Y axis (frequency domain), original data captured from gyroscope.	
+fBodyGyrostdZ: Average of standard deviation of rotational acceleration in Z axis (frequency domain), original data captured from gyroscope.	
+fBodyGyromeanFreqX: Average of mean angular acceleration in X axis (frequency domain), original data captured from gyroscope.	
+fBodyGyromeanFreqY: Average of mean angular acceleration in Y axis (frequency domain), original data captured from gyroscope.	
+fBodyGyromeanFreqZ: Average of mean angular acceleration in Z axis (frequency domain), original data captured from gyroscope.	
+fBodyAccMagmean: Average of mean acceleration magnitude (frequency domain), original data captured from accelerometer.	
+fBodyAccMagstd: Average of standard deviation of acceleration magnitude (frequency domain), original data captured from accelerometer.
+fBodyAccMagmeanFreq: Average of mean angular acceleration magnitude (frequency domain), original data captured from accelerometer.	
+fBodyBodyAccJerkMagmean: Average of mean Jerk rotational signal acceleration magnitude (frequency domain), original data captured from accelerometer
+fBodyBodyAccJerkMagstd: Average of standard deviation of Jerk rotational signal acceleration magnitude (frequency domain), original data captured from accelerometer
+fBodyBodyAccJerkMagmeanFreq: Average of Jerk angular signal acceleration magnitude (frequency domain), original data captured from accelerometer
+fBodyBodyGyroMagmean: Average of mean acceleration magnitude (frequency domain), original data captured from gyroscope.
+fBodyBodyGyroMagstd: Average of standard deviation of acceleration magnitude (frequency domain), original data captured from gyroscope.	
+fBodyBodyGyroMagmeanFreq: Average of mean of angular acceleration magnitude (frequency domain), original data captured from gyroscope.	
+fBodyBodyGyroJerkMagmean: Average of mean Jerk rotational signal acceleration magnitude (frequency domain), original data captured from gyroscope.
+fBodyBodyGyroJerkMagstd: Average of standard deviation of Jerk rotational signal acceleration magnitude (frequency domain), original data captured from gyroscope.
+fBodyBodyGyroJerkMagmeanFreq: Average of mean Jerk angular signal acceleration magnitude (frequency domain), original data captured from gyroscope. 	
+angletBodyAccMeangravity: Average of mean of angle between gravity and body acceleration (time domain), original data captured from accelerometer.	
+angletBodyAccJerkMeangravityMean: Average of mean of angle between jerk signal and body acceleration (time domain), original data captured from accelerometer.	
+angletBodyGyroMeangravityMean: Average of mean of angle between gravity and body acceleration (time domain), original data captured from gyroscope.
+angletBodyGyroJerkMeangravityMean: Average of mean of angle between jerk signal and body acceleration (time domain), original data captured from gyroscope.
+angleXgravityMean: Average of mean of angle between X axis and gravity acceleration (time domain), original data captured from accelerometer.
+angleYgravityMean: Average of mean of angle between Y axis and gravity acceleration (time domain), original data captured from accelerometer.	
+angleZgravityMean: Average of mean of angle between Y axis and gravity acceleration (time domain), original data captured from accelerometer.	
