@@ -43,90 +43,90 @@ Question_5: variable used to generate the tidy dataset as required on question #
 ##Full code explained:
 ================
 
-*** Load and merge data.
+### Load and merge data.
 
-training_data <- read.csv("UCI HAR Dataset/train/X_train.txt", sep="", header=FALSE) 
-training_activity_number = read.csv("./UCI HAR Dataset/train/Y_train.txt", sep="", header=FALSE) 
-training_subject = read.csv("UCI HAR Dataset/train/subject_train.txt", sep="", header=FALSE) 
-training_data<-cbind(training_data, training_activity_number,training_subject) 
+training_data <- read.csv("UCI HAR Dataset/train/X_train.txt", sep="", header=FALSE)  
+training_activity_number = read.csv("./UCI HAR Dataset/train/Y_train.txt", sep="", header=FALSE)  
+training_subject = read.csv("UCI HAR Dataset/train/subject_train.txt", sep="", header=FALSE)  
+training_data<-cbind(training_data, training_activity_number,training_subject)  
 
-testing_data = read.csv("UCI HAR Dataset/test/X_test.txt", sep="", header=FALSE) 
-testing_activity_number = read.csv("./UCI HAR Dataset/test/Y_test.txt", sep="", header=FALSE) 
-testing_subject = read.csv("UCI HAR Dataset/test/subject_test.txt", sep="", header=FALSE) 
-testing_data<-cbind(testing_data, testing_activity_number,testing_subject) 
+testing_data = read.csv("UCI HAR Dataset/test/X_test.txt", sep="", header=FALSE)  
+testing_activity_number = read.csv("./UCI HAR Dataset/test/Y_test.txt", sep="", header=FALSE)   
+testing_subject = read.csv("UCI HAR Dataset/test/subject_test.txt", sep="", header=FALSE)  
+testing_data<-cbind(testing_data, testing_activity_number,testing_subject)  
 
-*** Merge training_data and testing_data to create one dataset.
+### Merge training_data and testing_data to create one dataset.  
 
-full_dataset <- rbind(training_data, testing_data) 
+full_dataset <- rbind(training_data, testing_data)  
 
-*** Loading and cleaning feature names (remove non alphanumeric chars).
+### Loading and cleaning feature names (remove non alphanumeric chars).  
 
-feature_names <- read.csv("UCI HAR Dataset/features.txt", sep="", header=FALSE) 
-feature_names[,1]<-NULL 
-feature_names[,1] = gsub("[*(*|*)*]", "", feature_names[,1]) 
+feature_names <- read.csv("UCI HAR Dataset/features.txt", sep="", header=FALSE)  
+feature_names[,1]<-NULL  
+feature_names[,1] = gsub("[*(*|*)*]", "", feature_names[,1])  
 feature_names[,1] = gsub("-|,", "", feature_names[,1])  
-feature_names<-rbind(feature_names,c("Activity")) 
-feature_names<-rbind(feature_names,c("Subject")) 
+feature_names<-rbind(feature_names,c("Activity"))  
+feature_names<-rbind(feature_names,c("Subject"))  
 
-*** Find all the mean and standard deviation col numbers.
+### Find all the mean and standard deviation col numbers.  
 
-cols_mean_std <- grep(".*mean.*|.*std.*", feature_names[,1],ignore.case = TRUE) 
-cols_mean_std  <- c(cols_mean_std, 562, 563) 
+cols_mean_std <- grep(".*mean.*|.*std.*", feature_names[,1],ignore.case = TRUE)  
+cols_mean_std  <- c(cols_mean_std, 562, 563)  
 
-*** Remove all unwanted features using cols_mean_std.
+### Remove all unwanted features using cols_mean_std.  
 
-feature_names <- as.data.frame(feature_names[cols_mean_std,]) 
-feature_names<-cbind(cols_mean_std,feature_names) 
+feature_names <- as.data.frame(feature_names[cols_mean_std,])  
+feature_names<-cbind(cols_mean_std,feature_names)  
 
-*** Set easy names on feature_names dataframe.
+### Set easy names on feature_names dataframe.  
 
-colnames(feature_names)<-c("col_number", "feature_name") 
+colnames(feature_names)<-c("col_number", "feature_name")  
 
-*** Remove unwanted columns from full_dataset.
+### Remove unwanted columns from full_dataset.  
 
-full_dataset <- full_dataset[,cols_mean_std] 
+full_dataset <- full_dataset[,cols_mean_std]  
 
-*** Label full_dataset with descriptive variable names (features).
+### Label full_dataset with descriptive variable names (features).  
 
-colnames(full_dataset) <- feature_names$feature_name 
+colnames(full_dataset) <- feature_names$feature_name  
 
-*** Read activity names.
+### Read activity names.  
 
-activity_names <- read.csv("UCI HAR Dataset/activity_labels.txt", sep="", header=FALSE) 
+activity_names <- read.csv("UCI HAR Dataset/activity_labels.txt", sep="", header=FALSE)  
 
-*** Replace activity number for activity name in full_dataset.
+### Replace activity number for activity name in full_dataset.  
 
-for (i in 1:6) { 
-        full_dataset$Activity <- gsub(i, activity_names$V2[i], full_dataset$Activity) 
-} 
-full_dataset$Activity <- as.factor(full_dataset$Activity) 
-full_dataset$Subject <- as.factor(full_dataset$Subject) 
+for (i in 1:6) {  
+        full_dataset$Activity <- gsub(i, activity_names$V2[i], full_dataset$Activity)  
+}  
+full_dataset$Activity <- as.factor(full_dataset$Activity)  
+full_dataset$Subject <- as.factor(full_dataset$Subject)  
 
-*** Calculating mean for Question 5.
+### Calculating mean for Question 5.  
 
-library(stats) 
-Question_5 <- aggregate(full_dataset, by=list(Activity_name = full_dataset$Activity, Subject_number=full_dataset$Subject), mean) 
+library(stats)  
+Question_5 <- aggregate(full_dataset, by=list(Activity_name = full_dataset$Activity, Subject_number=full_dataset$Subject), mean)  
 
-*** Removing factor columns (NA's).
+### Removing factor columns (NA's).  
 
-Question_5<-Question_5[1:88] 
+Question_5<-Question_5[1:88]  
 
-*** Reordering.
+### Reordering  
 
-Question_5<-Question_5[,c(2,1,3:88)] 
+Question_5<-Question_5[,c(2,1,3:88)]  
 
-*** Writing the final dataset.
+### Writing the final dataset.  
 
-write.table(Question_5, "Question_5.txt", sep="," ,row.names = FALSE) 
+write.table(Question_5, "Question_5.txt", sep="," ,row.names = FALSE)  
 
 
-##Credits:
+###Credits:  
 
-Human Activity Recognition Using Smartphones Dataset
-Version 1.0
-Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.
-Smartlab - Non Linear Complex Systems Laboratory
-DITEN - Università degli Studi di Genova.
-Via Opera Pia 11A, I-16145, Genoa, Italy.
-activityrecognition@smartlab.ws
-www.smartlab.ws
+Human Activity Recognition Using Smartphones Dataset  
+Version 1.0  
+Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.  
+Smartlab - Non Linear Complex Systems Laboratory  
+DITEN - Università degli Studi di Genova.  
+Via Opera Pia 11A, I-16145, Genoa, Italy.  
+activityrecognition@smartlab.ws  
+www.smartlab.ws  
