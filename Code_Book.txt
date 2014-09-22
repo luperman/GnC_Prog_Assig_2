@@ -21,7 +21,8 @@ The Dataset "Question_5.txt"
 
 The dataset is generated from running run_analysis.R, the UCI HAR Dataset folder with its original structures must exists in the default working directory for the function to run.
 All variables were normalized to [-1,1] by the authors of the original UCI HAR Dataset.
-All variables represent the average of a particular feature depending on the activity performed by each subject
+All variables represent the average of a particular feature depending on the activity performed by each subject.
+The dataset is a csv (sep="," & rownames = FALSE)
 
 Variables in "Question_5.txt":
 ================
