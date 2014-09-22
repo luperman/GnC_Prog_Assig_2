@@ -1,8 +1,7 @@
 #Coursera Data Science Specialisation
 ================
 
-##Programming Assignment #2 (Course project)
-================
+##Programming Assignment #2 (Course project)  
 
 This repository was created as requested by the programming assignment of the course "Getting and Cleaning data" which is part of the data science specialisation from John Hopkins University hosted by Coursera.
 
@@ -16,13 +15,11 @@ The programming assignment required the student to create one R script called ru
 4- Appropriately labels the data set with descriptive variable names. 
 5- From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-##Description of run_analysis.R
-================
+## Description of run_analysis.R  
 
 - The script should be executed with the work directory pointing to the same directory where the UCI HAR dataset folder is located.
 
-List of objects used:
-================
+## List of objects used:  
 
 training_data: loads X_train.txt from the UCI HAR Dataset and later is used to merge training_activity_number and training_subject.
 training_activity_number: loads Y_train.txt from the UCI HAR Dataset.
@@ -43,7 +40,7 @@ Question_5: variable used to generate the tidy dataset as required on question #
 ##Full code explained:
 ================
 
-### Load and merge data.
+#### Load and merge data.
 
 training_data <- read.csv("UCI HAR Dataset/train/X_train.txt", sep="", header=FALSE)  
 training_activity_number = read.csv("./UCI HAR Dataset/train/Y_train.txt", sep="", header=FALSE)  
@@ -55,11 +52,11 @@ testing_activity_number = read.csv("./UCI HAR Dataset/test/Y_test.txt", sep="", 
 testing_subject = read.csv("UCI HAR Dataset/test/subject_test.txt", sep="", header=FALSE)  
 testing_data<-cbind(testing_data, testing_activity_number,testing_subject)  
 
-### Merge training_data and testing_data to create one dataset.  
+#### Merge training_data and testing_data to create one dataset.  
 
 full_dataset <- rbind(training_data, testing_data)  
 
-### Loading and cleaning feature names (remove non alphanumeric chars).  
+#### Loading and cleaning feature names (remove non alphanumeric chars).  
 
 feature_names <- read.csv("UCI HAR Dataset/features.txt", sep="", header=FALSE)  
 feature_names[,1]<-NULL  
@@ -68,33 +65,33 @@ feature_names[,1] = gsub("-|,", "", feature_names[,1])
 feature_names<-rbind(feature_names,c("Activity"))  
 feature_names<-rbind(feature_names,c("Subject"))  
 
-### Find all the mean and standard deviation col numbers.  
+#### Find all the mean and standard deviation col numbers.  
 
 cols_mean_std <- grep(".*mean.*|.*std.*", feature_names[,1],ignore.case = TRUE)  
 cols_mean_std  <- c(cols_mean_std, 562, 563)  
 
-### Remove all unwanted features using cols_mean_std.  
+#### Remove all unwanted features using cols_mean_std.  
 
 feature_names <- as.data.frame(feature_names[cols_mean_std,])  
 feature_names<-cbind(cols_mean_std,feature_names)  
 
-### Set easy names on feature_names dataframe.  
+#### Set easy names on feature_names dataframe.  
 
 colnames(feature_names)<-c("col_number", "feature_name")  
 
-### Remove unwanted columns from full_dataset.  
+#### Remove unwanted columns from full_dataset.  
 
 full_dataset <- full_dataset[,cols_mean_std]  
 
-### Label full_dataset with descriptive variable names (features).  
+#### Label full_dataset with descriptive variable names (features).  
 
 colnames(full_dataset) <- feature_names$feature_name  
 
-### Read activity names.  
+#### Read activity names.  
 
 activity_names <- read.csv("UCI HAR Dataset/activity_labels.txt", sep="", header=FALSE)  
 
-### Replace activity number for activity name in full_dataset.  
+#### Replace activity number for activity name in full_dataset.  
 
 for (i in 1:6) {  
         full_dataset$Activity <- gsub(i, activity_names$V2[i], full_dataset$Activity)  
@@ -102,25 +99,25 @@ for (i in 1:6) {
 full_dataset$Activity <- as.factor(full_dataset$Activity)  
 full_dataset$Subject <- as.factor(full_dataset$Subject)  
 
-### Calculating mean for Question 5.  
+#### Calculating mean for Question 5.  
 
 library(stats)  
 Question_5 <- aggregate(full_dataset, by=list(Activity_name = full_dataset$Activity, Subject_number=full_dataset$Subject), mean)  
 
-### Removing factor columns (NA's).  
+#### Removing factor columns (NA's).  
 
 Question_5<-Question_5[1:88]  
 
-### Reordering  
+#### Reordering  
 
 Question_5<-Question_5[,c(2,1,3:88)]  
 
-### Writing the final dataset.  
+#### Writing the final dataset.  
 
 write.table(Question_5, "Question_5.txt", sep="," ,row.names = FALSE)  
 
 
-###Credits:  
+### Credits:  
 
 Human Activity Recognition Using Smartphones Dataset  
 Version 1.0  
